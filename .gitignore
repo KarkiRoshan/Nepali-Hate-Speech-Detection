@@ -1,0 +1,5 @@
+VirtualEnv/
+/notebooks
+*.csv
+*.png
+/.ipynb_checkpoints
