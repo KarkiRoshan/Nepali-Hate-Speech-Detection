@@ -32,7 +32,7 @@ def main(video_id,counter):
         i=0
         while(True):
             height_before = driver.execute_script("return document.documentElement.scrollHeight")
-            print(height_before)
+            print(f"Scrolled height:{height_before}")
             time.sleep(1)
             driver.find_element(By.TAG_NAME,'body').send_keys(Keys.END)
             height_after = driver.execute_script("return document.documentElement.scrollHeight")
@@ -52,7 +52,7 @@ def main(video_id,counter):
             os.mkdir(ss_dir)
         except:
             pass
-            
+        print('Saving Screenshot...')
         driver.save_screenshot(f"./{ss_dir}/{counter}.png")
         
         csv_dir = './CSV'
@@ -62,7 +62,7 @@ def main(video_id,counter):
             pass
         title_list = [title.text]*len(comment_list)
         df = pd.DataFrame(list(zip(title_list,comment_list)))
-
+        print("Saving CSV...")
         df.to_csv(f'./{csv_dir}/result.csv',index=False,header=False,mode='a')
         # for m in mains:
         #     comment = m.find_element(By.XPATH,'.//div[@id="comment-content"]')
