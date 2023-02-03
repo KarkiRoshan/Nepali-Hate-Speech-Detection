@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "First",
+  "version": "1.0.0",
+  "action": { "default_popup": "index.html" },
+  "permissions": ["tabs"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
