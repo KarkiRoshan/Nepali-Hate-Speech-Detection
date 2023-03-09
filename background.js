@@ -1,3 +1,12 @@
+chrome.tabs.onUpdated.addListener(async (tabId, changes, tab) => {
+  if (tab.url !== undefined && changes.status == "complete") {
+    console.log(tabId);
+    chrome.tabs.sendMessage(tabId, { message: "new video" }, (res) =>
+      console.log(res)
+    );
+  }
+});
+
 chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
   if (req.contentScriptQuery == "postData") {
     console.log(req.data);
@@ -6,7 +15,7 @@ chrome.runtime.onMessage.addListener(function(req, sender, sendResponse) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ hello: "parse" }),
+      body: req.data,
     })
       .then((response) => response.text())
       .then((response) => sendResponse(response))
