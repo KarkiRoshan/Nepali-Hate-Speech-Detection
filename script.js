@@ -37,13 +37,10 @@ const blurComments = () => {
   const commentArrayLength = commentArray.length;
 
   if (commentArrayLength > 0) {
-    //manipulating array to obtain the comment text
-    // const comments = commentArray.map((el) => el.innerText);
-
     const toBeEditedArray = hateComments.filter((hateComment) =>
       commentArray.includes(hateComment)
     );
-    console.log("working");
+
     toBeEditedArray.forEach((comment) => {
       console.log(commentObjects[comment], comment);
 
@@ -56,7 +53,6 @@ const blurComments = () => {
 };
 
 const sendUrl = (data) => {
-  // console.log("send url");
   chrome.runtime.sendMessage(
     {
       contentScriptQuery: "postData",
@@ -75,9 +71,6 @@ const sendUrl = (data) => {
 };
 
 const editComment = (hateComments) => {
-  // console.log("editComment");
-
-  console.log(hateComments);
   const commentRenderer = document.querySelectorAll(
     "div#contents.style-scope.ytd-item-section-renderer"
   );
@@ -88,7 +81,6 @@ const editComment = (hateComments) => {
   );
 
   commentsCount = commentObjects.length;
-  console.log(commentObjects);
 
   blurComments();
 
@@ -101,7 +93,6 @@ const editComment = (hateComments) => {
 };
 
 const checkForComments = (interval) => {
-  console.log(count);
   if (count < 10) {
     count = count + 1;
     // Select the comment element and hide it
@@ -110,7 +101,6 @@ const checkForComments = (interval) => {
     );
 
     commentRendererLength = commentRenderer.length;
-    // console.log(commentRendererLength);
     if (commentRendererLength == 2) {
       commentRenderer[0].setAttribute("hidden", "hidden");
       clearInterval(interval);
@@ -122,19 +112,11 @@ const checkForComments = (interval) => {
 };
 
 chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
-  // document.location.reload();
-  // console.log(data.url.split("=")[1]);
-  console.log(data.url);
   commentRendererLength = 0;
   count = 0;
 
   const interval = setInterval(() => checkForComments(interval), 3000);
 
   sendUrl(data.url);
-  // editComment();
   sendResponse({ from: " content script" });
 });
-
-// yt-formatted-string#content-text.style-scope.ytd-comment-renderer
-// //*[@id="content-text"]
-// /html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[2]/ytd-comments/ytd-item-section-renderer/div[3]/ytd-comment-thread-renderer[1]/ytd-comment-renderer/div[3]/div[2]/div[2]/ytd-expander/div/yt-formatted-string
